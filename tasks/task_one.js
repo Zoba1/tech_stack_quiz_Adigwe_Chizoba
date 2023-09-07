@@ -1,40 +1,29 @@
 
 // Write something
-let getAnim = document.getElementById('anim')
-let api = 'https://api.jikan.moe/v4/anime'
-
-async function animes() {
-    try{
-    let response = await fetch(api)
-    let result = await response.json()
-
-    result.forEach(elements => {
-        let content = document.createElement('div')
-        let titles = document.createElement('p')
-        let duration = document.createElement('p')
-        let rating = document.createElement('p')
-        let image =  document.createElement('image')
-        let rank = document.createElement('p')
-        let trailer = document.createElement('p')
-
-        content.append(titles,duration,rating,image,rank,trailer)
-
-        titles.textContent = 'elements:${elements.titles}'
-        duration.textContent = 'elements:${elements.duration}'
-        rating.textContent = 'elements:${elements.rating}'
-        image.src = 'elements:${elements.image'
-        rank.src = 'elements:${elements.rank}'
-        trailer.src = 'elements:${elements.trailer}'
-
-        content.className = 'content'
-        titles.className = 'titles'
-        duration.className = 'duration'
-        rating.className = 'rating'
-        image.className = 'image'
-
-    });
-}catch(error) {
-
+const api = 'https://api.jikan.moe/v4/anime'
+const lists = []
+async function fetchApi (){
+    const response = await fetch(api)
+    const data = await response.json()
+    const lists = data
+    console.log(lists.data);
+    lists.data.forEach((elements)=>{
+        const image = document.createElement('img')
+        const title = document.createElement('h2')
+        const ratings = document.createElement('p')
+        const rank = document.createElement('p')
+        const synopis = document.createElement('p')
+        const year = document.createElement('p')
+        const bigDiv = document.getElementById('container')
+        const mainCon = document.getElementById('mainCon')
+        mainCon.append(bigDiv)
+        bigDiv.append(title, image,  ratings, rank, synopis,year)
+        image.src = `${elements.images.jpg.large_image_url}`
+        title.textContent = `${elements.title}`
+        ratings.textContent = `Ratings:${elements.rating}`
+        rank.textContent = `Rank:${elements.rank}`
+        synopis.textContent = `Ratings:${elements.synopsis}`
+        year.textContent = `Year:${elements.year}`
+    })
 }
-}
-animes()
+fetchApi()
